@@ -8,7 +8,7 @@ I'll see if I can manage to load models.
 
 ## Other
 
-Forgot to mention I took some ideas from the Hazel engine by TheCherno and team...
+Forgot to mention I took some ideas from the Hazel Engine by TheCherno and team...
 Thanks for the Engnie Series! :D
 
 Check this project out: [Hazel Engine](http://github.com/TheCherno/Hazel)

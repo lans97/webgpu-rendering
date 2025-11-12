@@ -4,6 +4,8 @@ export enum ShaderDataType {
   Float2,
   Float3,
   Float4,
+  Mat3,
+  Mat4,
   Int,
   Int2,
   Int3,
@@ -21,6 +23,10 @@ function ShaderDataTypeSize(dataType: ShaderDataType): number {
       return 4 * 3;
     case ShaderDataType.Float4:
       return 4 * 4;
+    case ShaderDataType.Mat3:
+      return 4 * 3 * 3;
+    case ShaderDataType.Mat4:
+      return 4 * 4 * 4;
     case ShaderDataType.Int:
       return 4;
     case ShaderDataType.Int2:
@@ -45,6 +51,10 @@ function ShaderDataTypeFormat(dataType: ShaderDataType): GPUVertexFormat {
     case ShaderDataType.Float3:
       return "float32x3";
     case ShaderDataType.Float4:
+      return "float32x4";
+    case ShaderDataType.Mat3:
+      return "float32x3";
+    case ShaderDataType.Mat4:
       return "float32x4";
     case ShaderDataType.Int:
       return "uint32";
@@ -84,6 +94,10 @@ export class BufferElement {
         return 3;
       case ShaderDataType.Float4:
         return 4;
+      case ShaderDataType.Mat3:
+        return 3;
+      case ShaderDataType.Mat4:
+        return 4;
       case ShaderDataType.Int:
         return 1;
       case ShaderDataType.Int2:
@@ -120,13 +134,25 @@ export class BufferLayout {
   }
 
   getGPUVertexLayout(): GPUVertexBufferLayout {
+    let loc = 0;
     let atts: GPUVertexAttribute[] = [];
-    for (const [idx, el] of this.elements.entries()) {
+    for (const el of this.elements) {
+      if (el.dataType == ShaderDataType.Mat3 || el.dataType == ShaderDataType.Mat4) {
+        for (let i = 0; i < ShaderDataTypeSize(el.dataType); i++) {
+          atts.push({
+            shaderLocation: loc,
+            offset: el.offset,
+            format: ShaderDataTypeFormat(el.dataType),
+          });
+          loc++;
+        }
+      }
       atts.push({
-        shaderLocation: idx,
+        shaderLocation: loc,
         offset: el.offset,
         format: ShaderDataTypeFormat(el.dataType),
       });
+      loc++;
     }
 
     const layout: GPUVertexBufferLayout = {

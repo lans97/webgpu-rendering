@@ -1,5 +1,3 @@
-import { ShaderDataType } from "./buffer";
-
 export class Shader {
   module: GPUShaderModule;
   stage: number;

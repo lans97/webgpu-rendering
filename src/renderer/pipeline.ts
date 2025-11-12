@@ -1,5 +1,6 @@
 import { BufferLayout, IndexBuffer, VertexBuffer } from "./buffer";
 import { Shader } from "./shader";
+import { UniformBuffer } from "./uniform-buffer";
 
 export class RenderPipeline {
   pipeline: GPURenderPipeline;
@@ -8,15 +9,16 @@ export class RenderPipeline {
     device: GPUDevice,
     vertex: Shader,
     layout: BufferLayout,
-    fragment: Shader | undefined,
+    fragment: Shader | null = null,
     topology: GPUPrimitiveTopology,
     label: string | null,
+    pipelineLayout: GPUPipelineLayout | "auto" = "auto",
   ) {
     if (label) this.label = label;
     const format = navigator.gpu.getPreferredCanvasFormat();
     const vblayout = layout.getGPUVertexLayout();
     const descriptor: GPURenderPipelineDescriptor = {
-      layout: "auto",
+      layout: pipelineLayout,
       vertex: {
         module: vertex.module,
         entryPoint: vertex.entrypoint,
@@ -45,9 +47,10 @@ export class RenderPipeline {
     pass.draw(length);
   }
 
-  drawIndexed(pass: GPURenderPassEncoder, vbo: VertexBuffer, ibo: IndexBuffer) {
+  drawIndexed(pass: GPURenderPassEncoder, vbo: VertexBuffer, ibo: IndexBuffer, ubo: UniformBuffer | null = null) {
     pass.setVertexBuffer(0, vbo.buffer);
     pass.setIndexBuffer(ibo.buffer, 'uint32');
+    if (ubo != null) pass.setBindGroup(0, ubo.bindGroup);
     pass.drawIndexed(ibo.count);
   }
 }

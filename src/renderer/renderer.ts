@@ -2,6 +2,7 @@ import { vec4 } from "gl-matrix";
 import { IndexBuffer, VertexBuffer } from "./buffer";
 import { RenderPipeline } from "./pipeline";
 import { Shader } from "./shader";
+import { UniformBuffer } from "./uniform-buffer";
 
 export class Renderer {
   device: GPUDevice;
@@ -97,7 +98,8 @@ export class Renderer {
     vbo: VertexBuffer,
     ibo: IndexBuffer,
     vs: Shader,
-    fs: Shader | undefined,
+    fs: Shader | null = null,
+    ubo: UniformBuffer | null = null,
   ) {
     const pl = new RenderPipeline(
       this.device,
@@ -112,7 +114,7 @@ export class Renderer {
     }
 
     pl.bind(this.pass);
-    pl.drawIndexed(this.pass, vbo, ibo);
+    pl.drawIndexed(this.pass, vbo, ibo, ubo);
   }
 
   drawLines(vbo: VertexBuffer, length: number, vs: Shader, fs: Shader | undefined) {
