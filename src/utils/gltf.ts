@@ -32,7 +32,7 @@ namespace GLFT {
     asset: Asset;
     buffers: Buffer[];
     bufferViews: BufferView[];
-    nodes: Node[];
+    nodes: Node[] | null;
     scenes: Scene[] | null;
     scene: number | null;
   }
