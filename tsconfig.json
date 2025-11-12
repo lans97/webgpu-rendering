@@ -1,0 +1,31 @@
+{
+  "compilerOptions": {
+
+    /* Project Configuration */
+
+    "module": "esNext",
+    "moduleResolution": "node",
+    "baseUrl": "./",
+
+    /* Target Environment */
+
+    "target": "es2022",
+    "lib": ["es2022", "dom", "dom.iterable"],
+    "types": ["@webgpu/types"],
+
+    /* Strictness & Quality of Life */
+
+    "strict": true,
+    "noImplicitReturns": true,
+    "forceConsistentCasingInFileNames": true,
+    "importHelpers": true,
+
+  },
+  "include": [
+    "src/**/*",
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+  ],
+}
