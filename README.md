@@ -1,15 +1,8 @@
-# 🚀 Welcome to your new awesome project!
+# WebGPU Simple Rendering
 
-This project has been created using **create-webpack-app**, you can now run
+It's just a simple rendering abstraction, always wanted to do this
 
-```bash
-npm run build
-```
+## Future Objectives
 
-or
+I'll see if I can manage to load models.
 
-```bash
-yarn build
-```
-
-to bundle your application
